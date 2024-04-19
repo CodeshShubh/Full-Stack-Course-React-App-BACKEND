@@ -37,38 +37,40 @@ import { sendToken } from "../utils/sendToken.js";
   sendToken(res, user, "Registered Successfully", 201);
 });
 
-// export const login = catchAsyncError(async (req, res, next) => {
-//   const { email, password } = req.body;
+//login
 
-//   if (!email || !password)
-//     return next(new ErrorHandler("Please enter all field", 400));
+export const login = catchAsyncError(async (req, res, next) => {
+   const { email, password } = req.body;
 
-//   const user = await User.findOne({ email }).select("+password");
+  if (!email || !password)
+    return next(new ErrorHandler("Please enter all field", 400));
 
-//   if (!user) return next(new ErrorHandler("Incorrect Email or Password", 401));
+   const user = await User.findOne({ email }).select("+password");
 
-//   const isMatch = await user.comparePassword(password);
+   if (!user) return next(new ErrorHandler("Incorrect Email or Password", 401));
 
-//   if (!isMatch)
-//     return next(new ErrorHandler("Incorrect Email or Password", 401));
+   const isMatch = await user.comparePassword(password);
 
-//   sendToken(res, user, `Welcome back, ${user.name}`, 200);
-// });
+  if (!isMatch)
+    return next(new ErrorHandler("Incorrect Email or Password", 401));
 
-// export const logout = catchAsyncError(async (req, res, next) => {
-//   res
-//     .status(200)
-//     .cookie("token", null, {
-//       expires: new Date(Date.now()),
-//       httpOnly: true,
-//       secure: true,
-//       sameSite: "none",
-//     })
-//     .json({
-//       success: true,
-//       message: "Logged Out Successfully",
-//     });
-// });
+   sendToken(res, user, `Welcome back, ${user.name}`, 200);
+ });
+
+
+//Logout
+ export const logout = catchAsyncError(async (req, res, next) => {
+  res.status(200).cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    })
+    .json({
+      success: true,
+      message: "Logged Out Successfully",
+    });
+});
 
 // export const getMyProfile = catchAsyncError(async (req, res, next) => {
 //   const user = await User.findById(req.user._id);
@@ -77,7 +79,7 @@ import { sendToken } from "../utils/sendToken.js";
 //     success: true,
 //     user,
 //   });
-// });
+ //});
 
 // export const changePassword = catchAsyncError(async (req, res, next) => {
 //   const { oldPassword, newPassword } = req.body;
