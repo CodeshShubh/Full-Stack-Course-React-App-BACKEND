@@ -11,6 +11,14 @@ config({
 
 const app = express();
 
+// Using Middlewares
+app.use(express.json());
+app.use(
+    express.urlencoded({
+        extended:true,
+    })
+)
+
 
 // Importing & Using Routes
 import course from "./routes/courseRoutes.js";
