@@ -82,65 +82,66 @@ export const getMyProfile = catchAsyncError(async (req, res, next) => {
   });
  });
 
-// export const changePassword = catchAsyncError(async (req, res, next) => {
-//   const { oldPassword, newPassword } = req.body;
-//   if (!oldPassword || !newPassword)
-//     return next(new ErrorHandler("Please enter all field", 400));
+//changepassword
+export const changePassword = catchAsyncError(async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword)
+    return next(new ErrorHandler("Please enter all field", 400));
 
-//   const user = await User.findById(req.user._id).select("+password");
+  const user = await User.findById(req.user._id).select("+password");
 
-//   const isMatch = await user.comparePassword(oldPassword);
+  const isMatch = await user.comparePassword(oldPassword);
 
-//   if (!isMatch) return next(new ErrorHandler("Incorrect Old Password", 400));
+  if (!isMatch) return next(new ErrorHandler("Incorrect Old Password", 400));
 
-//   user.password = newPassword;
+  user.password = newPassword;
 
-//   await user.save();
+  await user.save();
 
-//   res.status(200).json({
-//     success: true,
-//     message: "Password Changed Successfully",
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    message: "Password Changed Successfully",
+  });
+});
+//updateProfile
+export const updateProfile = catchAsyncError(async (req, res, next) => {
+  const { name, email } = req.body;
 
-// export const updateProfile = catchAsyncError(async (req, res, next) => {
-//   const { name, email } = req.body;
+  const user = await User.findById(req.user._id);
 
-//   const user = await User.findById(req.user._id);
+  if (name) user.name = name;
+  if (email) user.email = email;
 
-//   if (name) user.name = name;
-//   if (email) user.email = email;
+  await user.save();
 
-//   await user.save();
+  res.status(200).json({
+    success: true,
+    message: "Profile Updated Successfully",
+  });
+});
 
-//   res.status(200).json({
-//     success: true,
-//     message: "Profile Updated Successfully",
-//   });
-// });
+export const updateprofilepicture = catchAsyncError(async (req, res, next) => {
+  //const file = req.file;
 
-// export const updateprofilepicture = catchAsyncError(async (req, res, next) => {
-//   const file = req.file;
+  // const user = await User.findById(req.user._id);
 
-//   const user = await User.findById(req.user._id);
+  // const fileUri = getDataUri(file);
+  // const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
-//   const fileUri = getDataUri(file);
-//   const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
+  // await cloudinary.v2.uploader.destroy(user.avatar.public_id);
 
-//   await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+  // user.avatar = {
+  //   public_id: mycloud.public_id,
+  //   url: mycloud.secure_url,
+  // };
 
-//   user.avatar = {
-//     public_id: mycloud.public_id,
-//     url: mycloud.secure_url,
-//   };
+  // await user.save();
 
-//   await user.save();
-
-//   res.status(200).json({
-//     success: true,
-//     message: "Profile Picture Updated Successfully",
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    message: "Profile Picture Updated Successfully",
+  });
+});
 
 // export const forgetPassword = catchAsyncError(async (req, res, next) => {
 //   const { email } = req.body;

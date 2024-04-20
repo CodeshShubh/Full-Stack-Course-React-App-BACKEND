@@ -1,5 +1,5 @@
 import express from "express";
-import { getMyProfile, login, logout, register } from "../controllers/userController.js";
+import { changePassword, getMyProfile, login, logout, register, updateProfile, updateprofilepicture } from "../controllers/userController.js";
 import {isAuthenticated} from '../middlewares/auth.js'
 
 const router = express.Router();
@@ -16,12 +16,14 @@ router.route('/logout').get(logout);
 //getmyprofile (this is acceable when user already login)
 router.route('/me').get( isAuthenticated , getMyProfile);
 
-
-
-
 //change password
+router.route('/changepassword').put( isAuthenticated , changePassword);
+
 //updateprofile
+router.route('/updateprofile').put( isAuthenticated , updateProfile);
+
 // update profile picture
+router.route('/updateprofilepicture').put( isAuthenticated , updateprofilepicture);
 
 
 
