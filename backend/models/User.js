@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import validator from "validator";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import crypto from "crypto";  // for making reset token this is default package
+
 
 
  const schema = new mongoose.Schema({
@@ -69,16 +71,27 @@ import bcrypt from 'bcrypt';
   next();
 });
 
-// compair passowrd
+// bcrypt for compair passowrd
 schema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-// for generate token
+// for generate token for password
  schema.methods.getJWTToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "15d",
   });
+};
+
+// reset token for forget password
+schema.methods.getResetToken = function () {
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+  this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
+
+  return resetToken;
 };
 
  export const User = mongoose.model("User", schema);

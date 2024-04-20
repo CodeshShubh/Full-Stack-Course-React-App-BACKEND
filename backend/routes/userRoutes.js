@@ -1,5 +1,5 @@
 import express from "express";
-import { changePassword, getMyProfile, login, logout, register, updateProfile, updateprofilepicture } from "../controllers/userController.js";
+import { addToPlaylist, changePassword, forgetPassword, getMyProfile, login, logout, register, removeFromPlaylist, resetPassword, updateProfile, updateprofilepicture } from "../controllers/userController.js";
 import {isAuthenticated} from '../middlewares/auth.js'
 
 const router = express.Router();
@@ -25,14 +25,18 @@ router.route('/updateprofile').put( isAuthenticated , updateProfile);
 // update profile picture
 router.route('/updateprofilepicture').put( isAuthenticated , updateprofilepicture);
 
-
-
 //forgetpassword
-//resetpassword
+router.route('/forgetpassword').post(forgetPassword);
 
+//resetpassword
+router.route('/resetpassword/:token').put(resetPassword);
 
 //add to playlist
+router.route('/addtoplaylist').post(isAuthenticated, addToPlaylist);
+
 //remove from playlist
+router.route('/removefromplaylist').delete(isAuthenticated, removeFromPlaylist);
+
 
 
 

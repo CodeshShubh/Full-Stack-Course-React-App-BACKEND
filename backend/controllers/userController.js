@@ -2,13 +2,14 @@ import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import { User } from "../models/User.js";
 import { sendToken } from "../utils/sendToken.js";
-// import { sendEmail } from "../utils/sendEmail.js";
-// import crypto from "crypto";
-// import { Course } from "../models/Course.js";
+import { sendEmail } from "../utils/sendEmail.js";
+import crypto from "crypto";
+import { Course } from "../models/Course.js";
 // import cloudinary from "cloudinary";
 // import getDataUri from "../utils/dataUri.js";
 // import { Stats } from "../models/Stats.js";
 
+//register
  export const register = catchAsyncError(async (req, res, next) => {
    const { name, email, password } = req.body;
 //   const file = req.file;
@@ -38,7 +39,6 @@ import { sendToken } from "../utils/sendToken.js";
 });
 
 //login
-
 export const login = catchAsyncError(async (req, res, next) => {
    const { email, password } = req.body;
 
@@ -103,6 +103,7 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     message: "Password Changed Successfully",
   });
 });
+
 //updateProfile
 export const updateProfile = catchAsyncError(async (req, res, next) => {
   const { name, email } = req.body;
@@ -143,102 +144,111 @@ export const updateprofilepicture = catchAsyncError(async (req, res, next) => {
   });
 });
 
-// export const forgetPassword = catchAsyncError(async (req, res, next) => {
-//   const { email } = req.body;
 
-//   const user = await User.findOne({ email });
+// forgetPassword
+export const forgetPassword = catchAsyncError(async (req, res, next) => {
+  const { email } = req.body;
 
-//   if (!user) return next(new ErrorHandler("User not found", 400));
+  const user = await User.findOne({ email });
 
-//   const resetToken = await user.getResetToken();
+  if (!user) return next(new ErrorHandler("User not found", 400));
 
-//   await user.save();
+  const resetToken = await user.getResetToken();
+  
+  await user.save(); // to save the token in db
 
-//   const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+//  http://localhost:3000/resetpassword/lsdkjfosifioehfsodfjsdhf
+   const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
 
-//   const message = `Click on the link to reset your password. ${url}. If you have not request then please ignore.`;
+   const message = `Click on the link to reset your password. ${url}. If you have not request then please ignore.`;
 
-//   // Send token via email
-//   await sendEmail(user.email, "CourseBundler Reset Password", message);
+  // Send token via email
+   await sendEmail(user.email, "CourseBundler Reset Password", message);
 
-//   res.status(200).json({
-//     success: true,
-//     message: `Reset Token has been sent to ${user.email}`,
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    message: `Reset Token has been sent to ${user.email}`,
+  });
+});
 
-// export const resetPassword = catchAsyncError(async (req, res, next) => {
-//   const { token } = req.params;
+//Reset Password
 
-//   const resetPasswordToken = crypto
-//     .createHash("sha256")
-//     .update(token)
-//     .digest("hex");
+export const resetPassword = catchAsyncError(async (req, res, next) => {
+  const { token } = req.params;
 
-//   const user = await User.findOne({
-//     resetPasswordToken,
-//     resetPasswordExpire: {
-//       $gt: Date.now(),
-//     },
-//   });
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
 
-//   if (!user)
-//     return next(new ErrorHandler("Token is invalid or has been expired", 401));
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: {
+      $gt: Date.now(),
+    },
+  });
 
-//   user.password = req.body.password;
-//   user.resetPasswordToken = undefined;
-//   user.resetPasswordExpire = undefined;
+  if (!user)return next(new ErrorHandler("Token is invalid or has been expired", 401));
 
-//   await user.save();
+  // if we get user from datbase
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined; // to undefiend older token
+  user.resetPasswordExpire = undefined;  //to remove old time also which we get through mailtrap
 
-//   res.status(200).json({
-//     success: true,
-//     message: "Password Changed Successfully",
-//   });
-// });
+   await user.save(); // to save reset password
 
-// export const addToPlaylist = catchAsyncError(async (req, res, next) => {
-//   const user = await User.findById(req.user._id);
+  res.status(200).json({
+    success: true,
+    message: "Password Changed Successfully",
+    token,
+  });
+});
 
-//   const course = await Course.findById(req.body.id);
+// ADD course in model palylist by a courese id which is created by admin furthur
+export const addToPlaylist = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
 
-//   if (!course) return next(new ErrorHandler("Invalid Course Id", 404));
+  const course = await Course.findById(req.body.id);
 
-//   const itemExist = user.playlist.find((item) => {
-//     if (item.course.toString() === course._id.toString()) return true;
-//   });
+  if (!course) return next(new ErrorHandler("Invalid Course Id", 404));
 
-//   if (itemExist) return next(new ErrorHandler("Item Already Exist", 409));
+  const itemExist = user.playlist.find((item) => {
+    if (item.course.toString() === course._id.toString()) return true;
+  });
+ 
+  if (itemExist) return next(new ErrorHandler("Item Already Exist", 409)); // agar course same id ka phle he hai
 
-//   user.playlist.push({
-//     course: course._id,
-//     poster: course.poster.url,
-//   });
+  user.playlist.push({
+    course: course._id,
+    poster: course.poster.url,
+  });
 
-//   await user.save();
+  await user.save();
 
-//   res.status(200).json({
-//     success: true,
-//     message: "Added to playlist",
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    message: "Added to playlist",
+  });
+});
 
-// export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
-//   const user = await User.findById(req.user._id);
-//   const course = await Course.findById(req.query.id);
-//   if (!course) return next(new ErrorHandler("Invalid Course Id", 404));
+//course remove remove from playlist
+export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  const course = await Course.findById(req.query.id);
+  if (!course) return next(new ErrorHandler("Invalid Course Id", 404));
 
-//   const newPlaylist = user.playlist.filter((item) => {
-//     if (item.course.toString() !== course._id.toString()) return item;
-//   });
+  const newPlaylist = user.playlist.filter((item) => {
+    if (item.course.toString() !== course._id.toString()) return item;
+  });
 
-//   user.playlist = newPlaylist;
-//   await user.save();
-//   res.status(200).json({
-//     success: true,
-//     message: "Removed From Playlist",
-//   });
-// });
+  user.playlist = newPlaylist;
+  
+  await user.save();
+  res.status(200).json({
+    success: true,
+    message: "Removed From Playlist",
+  });
+});
 
 // // Admin Controllers
 
