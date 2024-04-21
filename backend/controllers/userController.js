@@ -305,10 +305,10 @@ export const deleteMyProfile = catchAsyncError(async (req, res, next) => {
 
   // Cancel Subscription
 
-  await user.remove();
+  await user.deleteOne();
 
   res.status(200)
-    .cookie("token", null, {
+    .cookie("token", null, {   // also delete cookie till today date
       expires: new Date(Date.now()),
     })
     .json({
