@@ -39,7 +39,8 @@ export const courseRequest = catchAsyncError(async (req, res, next) => {
 });
 
 export const getDashboardStats = catchAsyncError(async (req, res, next) => {
-  const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(12);
+  const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(12);  // we use here sotrt because we data add in
+  // database it shows below the previous added data
 
   const statsData = [];
 
@@ -69,8 +70,7 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
 
   if (statsData[10].users === 0) usersPercentage = usersCount * 100;
   if (statsData[10].views === 0) viewsPercentage = viewsCount * 100;
-  if (statsData[10].subscription === 0)
-    subscriptionPercentage = subscriptionCount * 100;
+  if (statsData[10].subscription === 0) subscriptionPercentage = subscriptionCount * 100;
   else {
     const difference = {
       users: statsData[11].users - statsData[10].users,

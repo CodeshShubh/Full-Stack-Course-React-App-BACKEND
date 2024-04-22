@@ -3,31 +3,27 @@ import { Course } from "../models/Course.js";
 import getDataUri from "../utils/dataUri.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import cloudinary from "cloudinary";
-// import { Stats } from "../models/Stats.js";
+import { Stats } from "../models/Stats.js";
 
 export const getAllCourses = catchAsyncError(async (req, res, next) => {
-  // const keyword = req.query.keyword || "";
-  // const category = req.query.category || "";
+  const keyword = req.query.keyword || "";  // these quarry after api testing this use for (?keyword=sample)is is added end of url
+  const category = req.query.category || ""; // these quarry after api testing
             
-          const course = await Course.find().select("-lectures");
-          res.status(200).json({
-            success:true,
-            course,
-          });
-  // const courses = await Course.find({
-  //   title: {
-  //     $regex: keyword,
-  //     $options: "i",
-  //   },
-  //   category: {
-  //     $regex: category,
-  //     $options: "i",
-  //   },
-  // }).select("-lectures");
-  // res.status(200).json({
-  //   success: true,
-  //   courses,
-  // });
+          
+  const courses = await Course.find({ 
+    title: {    // these quarry after api testing
+      $regex: keyword,
+      $options: "i",
+    },
+    category: {
+      $regex: category,
+      $options: "i",
+    },
+  }).select("-lectures");
+  res.status(200).json({
+    success: true,
+    courses,
+  });
 })
 
  export const createCourse = catchAsyncError(async (req, res, next) => {
@@ -164,3 +160,23 @@ export const deleteLecture = catchAsyncError(async (req, res, next) => {
     
   });
 });
+
+
+Course.watch().on("change", async () => {
+  const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
+
+  const courses = await Course.find({});
+
+  let totalViews = 0;
+
+  for (let i = 0; i < courses.length; i++) {
+    totalViews += courses[i].views;
+  }
+  stats[0].views = totalViews;
+  stats[0].createdAt = new Date(Date.now());
+
+  await stats[0].save();
+});
+
+
+
