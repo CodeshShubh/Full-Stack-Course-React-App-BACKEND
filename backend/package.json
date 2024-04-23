@@ -5,9 +5,10 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
-  "author": "",
+  "author": "Shubhanshu Saadhiyaan",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
