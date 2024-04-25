@@ -144,6 +144,7 @@ export const resetPassword = (token, password) => async dispatch => {
   }
 };
 
+// add to playlist
 export const addToPlaylist = id => async dispatch => {
   try {
     dispatch({ type: 'addToPlaylistRequest' });
@@ -173,6 +174,7 @@ export const addToPlaylist = id => async dispatch => {
   }
 };
 
+// remove from playlist
 export const removeFromPlaylist = id => async dispatch => {
   try {
     dispatch({ type: 'removeFromPlaylistRequest' });

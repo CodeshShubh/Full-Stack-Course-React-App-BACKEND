@@ -9,13 +9,13 @@ import {
     Text,
     VStack,
   } from '@chakra-ui/react';
-  import React, { useState } from 'react';
+  import React, { useEffect, useState } from 'react';
   import { Link } from 'react-router-dom';
-//   import { useDispatch, useSelector } from 'react-redux';
-//   import { getAllCourses } from '../../redux/actions/course';
-//   import toast from 'react-hot-toast';
-//   import { addToPlaylist } from '../../redux/actions/profile';
-//   import { loadUser } from '../../redux/actions/user';
+  import { useDispatch, useSelector } from 'react-redux';
+  import { getAllCourses } from '../../redux/actions/course';
+  import toast from 'react-hot-toast';
+  import { addToPlaylist } from '../../redux/actions/profile';
+  import { loadUser } from '../../redux/actions/user';
   
   const Course = ({ views, title, imageSrc, id, addToPlaylistHandler, creator, description, lectureCount, loading,}) => {
     return (
@@ -78,12 +78,11 @@ import {
   const Courses = () => {
     const [keyword, setKeyword] = useState('');
     const [category, setCategory] = useState('');
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();   // dispatch
   
     const addToPlaylistHandler = async couseId => {
-    //   await dispatch(addToPlaylist(couseId));
-    //   dispatch(loadUser());
-    console.log("Added to playlist")
+      await dispatch(addToPlaylist(couseId));
+      dispatch(loadUser());
     };
   
     const categories = [
@@ -95,23 +94,23 @@ import {
       'Game Development',
     ];
   
-    // const { loading, courses, error, message } = useSelector(
-    //   state => state.course
-    // );
+    const { loading, courses, error, message } = useSelector(
+      state => state.course
+    );
   
-    // useEffect(() => {
-    //   dispatch(getAllCourses(category, keyword));
+    useEffect(() => {
+      dispatch(getAllCourses(category, keyword));
   
-    //   if (error) {
-    //     toast.error(error);
-    //     dispatch({ type: 'clearError' });
-    //   }
+      if (error) {
+        toast.error(error);
+        dispatch({ type: 'clearError' });
+      }
   
-    //   if (message) {
-    //     toast.success(message);
-    //     dispatch({ type: 'clearMessage' });
-    //   }
-    // }, [category, keyword, dispatch, error, message]);
+      if (message) {
+        toast.success(message);
+        dispatch({ type: 'clearMessage' });
+      }
+    }, [category, keyword, dispatch, error, message]);
   
     return (
       <Container minH={'95vh'} maxW="container.lg" paddingY={'8'}>
@@ -147,24 +146,24 @@ import {
           justifyContent={['flex-start', 'space-evenly']}
           alignItems={['center', 'flex-start']}
         >
-          {/* {courses.length > 0 ? (
-            courses.map(item => ( */}
+          {courses.length > 0 ? (
+            courses.map(item => (
               <Course
-                // key={item._id}
-                title=  {'sample1'}   //{item.title}
-                description=  {'sample1'}    //{item.description}
-                views=  {23}  //{item.views}
-                imageSrc= {'sample1'}     //{item.poster.url}
-                id= {'sample1'}    //{item._id}
-                creator={'sample1 boy'}     //{item.createdBy}
-                lectureCount= {2}  //{item.numOfVideos}
+                 key={item._id}
+                title=  {item.title}   //
+                description=  {item.description}    //{}
+                views=  {item.views}  //{}
+                imageSrc= {item.poster.url}     //{}
+                id= {item._id}    //{}
+                creator={item.createdBy}     //{}
+                lectureCount= {item.numOfVideos}  //{}
                 addToPlaylistHandler={addToPlaylistHandler}
-                // loading={loading}
+                 loading={loading}
               />
-            {/* ))
+            ))
           ) : (
             <Heading mt="4" children="Courses Not Found" />
-          )} */}
+          )}
         </Stack>
       </Container>
     );

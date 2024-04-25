@@ -59,7 +59,6 @@ import {
      const removeFromPlaylistHandler = async id => {
       await dispatch(removeFromPlaylist(id));
       dispatch(loadUser());
-    console.log(id);
      };
   
     const changeImageSubmitHandler = async (e, image) => {
@@ -71,7 +70,7 @@ import {
     };
   
     const cancelSubscriptionHandler = () => {
-       dispatch(cancelSubscription());
+      //  dispatch(cancelSubscription());
     };
   
     useEffect(() => {
@@ -133,7 +132,7 @@ import {
                 <Text children="Subscription" fontWeight={'bold'} />
                 {user.subscription &&  user.subscription.status === 'active' ? (       // user.subscription &&
                   <Button
-                     isLoading={subscriptionLoading}
+                     //isLoading={subscriptionLoading}
                     onClick={cancelSubscriptionHandler}
                     color={'yellow.500'}
                     variant="unstyled"
