@@ -77,7 +77,7 @@ function App() {
         </ProtectedRoute> }/>
 
         <Route path='/updateprofile' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
-          <UpdateProfile/>
+          <UpdateProfile user={user}/>
         </ProtectedRoute> }/>
 
         <Route path='/about' element={<About/> }/>
@@ -93,9 +93,15 @@ function App() {
           <Register/> 
         </ProtectedRoute>} />
 
+            {/* if user is already login that he cant forget password but redirect into prfile */}
+        <Route path='/forgetpassword' element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
+          <ForgetPassword/>
+        </ProtectedRoute> } />
 
-        <Route path='/forgetpassword' element={<ForgetPassword/> } />
-        <Route path='/resetpassword/:token' element={<ResetPassword/> } />
+             {/* same if user is already login that he cant reset password but redirect into prfile */}
+        <Route path='/resetpassword/:token' element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
+          <ResetPassword/>
+        </ProtectedRoute> } />
 
         <Route path='/subscribe' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
           <Subscribe/> 
