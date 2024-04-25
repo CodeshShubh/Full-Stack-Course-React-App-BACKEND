@@ -31,7 +31,7 @@ import {
 //   import { cancelSubscription, loadUser } from '../../redux/actions/user';
   import { fileUploadCss } from '../Auth/Register';
    
-  const Profile = () => {   // { user }
+  const Profile = ({ user }) => {  
 //     // const dispatch = useDispatch();
 //     // const { loading, message, error } = useSelector(state => state.profile);
 //     // const {
@@ -40,21 +40,21 @@ import {
 //     //   error: subscriptionError,
 //     // } = useSelector(state => state.subscription);
 
-     const user = {
-        name: "shubhanshu",
-        email :  "shubha@gmail.com",
-        createdAt :  String(new Date().toISOString()),
-        role : 'user',
-        subscription: {
-            status : "active",
-        },
-        playlist : [
-               {
-                course : "sadskjf",
-                poster : 'klsjdfjk'
-               },
-        ]
-     }     // temperiry user 
+    //  const user = {       // temperiry user (we made it when we making frontend before api fetch)
+    //     name: "shubhanshu",
+    //     email :  "shubha@gmail.com",
+    //     createdAt :  String(new Date().toISOString()),
+    //     role : 'user',
+    //     subscription: {
+    //         status : "active",
+    //     },
+    //     playlist : [
+    //            {
+    //             course : "sadskjf",
+    //             poster : 'klsjdfjk'
+    //            },
+    //     ]
+    //  }     
   
      const removeFromPlaylistHandler = async id => {
     // //   await dispatch(removeFromPlaylist(id));
@@ -109,7 +109,7 @@ import {
           padding="8"
         >
           <VStack>
-            <Avatar boxSize={'48'}  />  {/* src={user.avatar.url} */}
+            <Avatar boxSize={'48'} src={user.avatar.url} />  
             <Button onClick={onOpen}  colorScheme={'yellow'} variant="ghost"> 
               Change Photo
             </Button>
@@ -131,7 +131,7 @@ import {
             {user.role !== 'admin' && (
               <HStack>
                 <Text children="Subscription" fontWeight={'bold'} />
-                { user.subscription.status === 'active' ? (       // user.subscription &&
+                {user.subscription &&  user.subscription.status === 'active' ? (       // user.subscription &&
                   <Button
                     // isLoading={subscriptionLoading}
                   //  onClick={cancelSubscriptionHandler}

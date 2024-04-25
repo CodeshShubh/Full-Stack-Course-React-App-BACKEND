@@ -32,10 +32,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import toast,{Toaster} from 'react-hot-toast';  
 import { loadUser } from './redux/actions/user';
 import {ProtectedRoute} from 'protected-route-react'
+import Loader from './components/Layout/Loader/Loader';
 
 
 function App() {
-  const {isAuthenticated,user, error, message} =useSelector(state=>state.user) // it is take from reducer initial stage
+  const {isAuthenticated,user, error, message, loading} =useSelector(state=>state.user) // it is take from reducer initial stage
       const dispatch = useDispatch();  // After api
 
     useEffect(()=>{                   // After api
@@ -55,7 +56,10 @@ function App() {
 
   return (
     <Router>
-      <Header isAuthenticated={isAuthenticated} user={user}/>
+          {
+                loading ? (<Loader/>):
+                <>
+                      <Header isAuthenticated={isAuthenticated} user={user}/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Courses' element={<Courses/>}/>
@@ -65,11 +69,17 @@ function App() {
             {/* used protected route for if user already login and profile button show */}
         <Route path='/profile' element={
         <ProtectedRoute isAuthenticated={isAuthenticated}>
-          <Profile/>
+          <Profile user={user}/>
         </ProtectedRoute> }/>
 
-        <Route path='/changepassword' element={<ChangePassword/> }/>
-        <Route path='/updateprofile' element={<UpdateProfile/> }/>
+        <Route path='/changepassword' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
+          <ChangePassword/>
+        </ProtectedRoute> }/>
+
+        <Route path='/updateprofile' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
+          <UpdateProfile/>
+        </ProtectedRoute> }/>
+
         <Route path='/about' element={<About/> }/>
                   
                   {/* if user login is already login then redirect profile page */}
@@ -77,7 +87,7 @@ function App() {
         <ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
           <Login/>
         </ProtectedRoute>} />
-        
+
              {/* if user register itself the redirect to profile page */}
         <Route path='/Register' element={<ProtectedRoute isAuthenticated={!isAuthenticated} redirect="/profile">
           <Register/> 
@@ -86,22 +96,47 @@ function App() {
 
         <Route path='/forgetpassword' element={<ForgetPassword/> } />
         <Route path='/resetpassword/:token' element={<ResetPassword/> } />
-        <Route path='/subscribe' element={<Subscribe/> } />
+
+        <Route path='/subscribe' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
+          <Subscribe/> 
+        </ProtectedRoute>} />
+
         <Route path='*' element={<NotFound/> } />
         <Route path='/paymentsuccess' element={<PaymentSuccess/> } />
         <Route path='/paymentfail' element={<PaymentFail/> } />
             
             {/* Admin Routes */}
 
-            <Route path='/admin/dashboard' element={<Dashboard/> } />
-            <Route path='/admin/createcourse' element={<CreateCourse/> } />
-            <Route path='/admin/courses' element={<AdminCourses/> } />
-            <Route path='/admin/users' element={<Users/> } />
+               {/* Dashboard */}
+            <Route path='/admin/dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} 
+            isAdmin={user && user.role === 'admin'}>
+              <Dashboard/>
+            </ProtectedRoute> } />
+
+            {/* CreateCourse */}
+            <Route path='/admin/createcourse' element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} 
+            isAdmin={user && user.role === 'admin'}>
+              <CreateCourse/>
+            </ProtectedRoute> } />
+
+             {/* AdminCourses */}
+            <Route path='/admin/courses' element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} 
+            isAdmin={user && user.role === 'admin'}>
+              <AdminCourses/>
+            </ProtectedRoute> } />
+
+              {/* Users */}
+            <Route path='/admin/users' element={<ProtectedRoute isAuthenticated={isAuthenticated} adminRoute={true} 
+            isAdmin={user && user.role === 'admin'}>
+              <Users/>
+            </ProtectedRoute> } />
 
 
       </Routes>
       <Footer/>
       <Toaster/>  {/*After api*/}
+                </>
+          }
     </Router>
   );
 }

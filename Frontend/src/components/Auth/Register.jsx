@@ -9,9 +9,9 @@ import {
     VStack,
   } from '@chakra-ui/react';
   import React, { useState } from 'react';
-//   import { useDispatch } from 'react-redux';
+  import { useDispatch } from 'react-redux';
   import { Link } from 'react-router-dom';
-//   import { register } from '../../redux/actions/user';
+  import { register } from '../../redux/actions/user';
   
   export const fileUploadCss = {
     cursor: 'pointer',
@@ -34,7 +34,8 @@ import {
     const [imagePrev, setImagePrev] = useState('');
     const [image, setImage] = useState('');
   
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch(); // after api fetch
+    
     const changeImageHandler = e => {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -49,14 +50,14 @@ import {
   
     const submitHandler = e => {
       e.preventDefault();
-      const myForm = new FormData();
+      const myForm = new FormData();  //after api fetch
   
-      myForm.append('name', name);
-      myForm.append('email', email);
-      myForm.append('password', password);
-      myForm.append('file', image);
+      myForm.append('name', name);   //after api fetch
+      myForm.append('email', email);  //after api fetch
+      myForm.append('password', password);  //after api fetch
+      myForm.append('file', image);   //after api fetch
   
-    //   dispatch(register(myForm));
+       dispatch(register(myForm)); //after api fetch
     };
   
     return (
