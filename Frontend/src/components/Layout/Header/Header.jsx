@@ -13,8 +13,8 @@ import React from 'react';
 import { ColorModeSwitcher } from '../../../ColorModeSwitcher';
 import { RiDashboardFill, RiLogoutBoxLine, RiMenu5Fill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { logout } from '../../../redux/actions/user';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../redux/actions/user';
 
 const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
   <Link onClick={onClose} to={url}>
@@ -22,24 +22,21 @@ const LinkButton = ({ url = '/', title = 'Home', onClose }) => (
   </Link>
 );
 
-const Header = () => {   // { isAuthenticated = false, user }
+const Header = ({ isAuthenticated = false, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const isAuthenticated = false;
-   const user ={
-    role: "admin",
-   };
-
+  // const isAuthenticated = false;    // it is used before api creation
+  //  const user ={
+  //   role: "admin",
+  //  };
+  const dispatch = useDispatch();
    const logoutHandler = ()=>{
-    console.log("Logout")
-    onClose();
-   }
-  // const dispatch = useDispatch();
-
-  // const logoutHandler = () => {
+  //   console.log("Logout")     //  it is used befoe api creation
   //   onClose();
-  //   dispatch(logout());
-  // };
+  //  }
+    onClose();
+    dispatch(logout());
+   };
 
   return (
     <>

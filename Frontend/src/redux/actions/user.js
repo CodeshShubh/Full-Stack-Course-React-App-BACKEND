@@ -17,7 +17,7 @@ export const login = (email, password) => async dispatch => {
         withCredentials: true,  //mendatory use to store cookies in browser
       }
     );
-
+      console.log(data);
     dispatch({ type: 'loginSuccess', payload: data });
   } catch (error) {
     dispatch({ type: 'loginFail', payload: error.response.data.message });
@@ -44,35 +44,37 @@ export const login = (email, password) => async dispatch => {
 //   }
 // };
 
-// export const loadUser = () => async dispatch => {
-//   try {
-//     dispatch({ type: 'loadUserRequest' });
+export const loadUser = () => async dispatch => {
+  try {
+    dispatch({ type: 'loadUserRequest' });
 
-//     const { data } = await axios.get(
-//       `${server}/me`,
+    const { data } = await axios.get(
+      `${server}/me`,
 
-//       {
-//         withCredentials: true,
-//       }
-//     );
-//     dispatch({ type: 'loadUserSuccess', payload: data.user });
-//   } catch (error) {
-//     dispatch({ type: 'loadUserFail', payload: error.response.data.message });
-//   }
-// };
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data);
+    dispatch({ type: 'loadUserSuccess', payload: data.user });
+  } catch (error) {
+    dispatch({ type: 'loadUserFail', payload: error.response.data.message });
+  }
+};
 
-// export const logout = () => async dispatch => {
-//   try {
-//     dispatch({ type: 'logoutRequest' });
+export const logout = () => async dispatch => {
+  try {
+    dispatch({ type: 'logoutRequest' });
 
-//     const { data } = await axios.get(`${server}/logout`, {
-//       withCredentials: true,
-//     });
-//     dispatch({ type: 'logoutSuccess', payload: data.message });
-//   } catch (error) {
-//     dispatch({ type: 'logoutFail', payload: error.response.data.message });
-//   }
-// };
+    const { data } = await axios.get(`${server}/logout`, {
+      withCredentials: true,
+    });
+    console.log(data);
+    dispatch({ type: 'logoutSuccess', payload: data.message });
+  } catch (error) {
+    dispatch({ type: 'logoutFail', payload: error.response.data.message });
+  }
+};
 
 // export const buySubscription = () => async dispatch => {
 //   try {

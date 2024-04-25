@@ -12,8 +12,8 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>
    <ReduxProvider store={store}>
-   <ChakraProvider>
-   <ColorModeScript theme={theme}/>
+   <ChakraProvider theme={theme}>
+   <ColorModeScript />
     <App />
    </ChakraProvider>
    </ReduxProvider>
