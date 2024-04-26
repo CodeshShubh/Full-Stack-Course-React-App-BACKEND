@@ -45,7 +45,6 @@ const CourseModal = ({
       setVideo(file);
     };
   };
-  lectures = [1,2,3,4,5];
 
 
   const handleClose = () => {
@@ -80,14 +79,14 @@ const CourseModal = ({
 
               {lectures.map((item, i) => (
                 <VideoCard
-                  key={"reaact course"} // i 
-                  title={courseTitle} // item.title
-                  description={ "this is a intro lecture where you will  know the basics of react"} // item.description
-                  num={i}  // i + 1
-                  lectureId={"ksjflksjfsl"} // item._id
+                  key={i} // i 
+                  title={item.title} // 
+                  description={ item.description} // 
+                  num={i + 1}  // 
+                  lectureId={item._id} // 
                   courseId={id}
                   deleteButtonHandler={deleteButtonHandler}
-                 // loading={loading}
+                  loading={loading}
                 />
                 ))}  
             </Box>
@@ -141,7 +140,7 @@ const CourseModal = ({
                   )}
 
                   <Button
-                   // isLoading={loading}
+                    isLoading={loading}
                     w="full"
                     colorScheme={'purple'}
                     type="submit"
@@ -171,7 +170,7 @@ function VideoCard({
   lectureId,
   courseId,
   deleteButtonHandler,
-  // loading,
+   loading,
 }) {
   return (
     <Stack
@@ -188,7 +187,7 @@ function VideoCard({
       </Box>
 
       <Button
-        // isLoading={loading}
+         isLoading={loading}
         color={'purple.600'}
         onClick={() => deleteButtonHandler(courseId, lectureId)}
       >

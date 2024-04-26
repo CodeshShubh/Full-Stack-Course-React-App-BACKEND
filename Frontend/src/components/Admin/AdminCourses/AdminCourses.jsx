@@ -16,58 +16,44 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import CourseModal from './CourseModal';
-// import { getAllCourses, getCourseLectures,} from '../../../redux/actions/course';
-// import { addLecture, deleteCourse, deleteLecture,} from '../../../redux/actions/admin';
-// import toast from 'react-hot-toast';
+import { getAllCourses, getCourseLectures,} from '../../../redux/actions/course';
+import { addLecture, deleteCourse, deleteLecture,} from '../../../redux/actions/admin';
+import toast from 'react-hot-toast';
 
 const AdminCourses = () => {
-  // const { courses, lectures } = useSelector(state => state.course);
+  const { courses, lectures } = useSelector(state => state.course);
 
-  // const { loading, error, message } = useSelector(state => state.admin);
+  const { loading, error, message } = useSelector(state => state.admin);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [courseId, setCourseId] = useState('');
   const [courseTitle, setCourseTitle] = useState('');
  
-  const courses =[   // temprary courses array object
-  {
-    _id: "kashdfkjshdfsdsdsdsdfsdf",
-    title: "React Course",
-    category: "web development",
-    poster: {
-      url: "http url"
-    },
-    createdBy : "codesh shubh",
-    views: 123,
-    numOfVideos: 12,
-   
-
-  }
-]
+  
 
   const coureDetailsHandler = (courseId, title) => {
-    // dispatch(getCourseLectures(courseId));
+    dispatch(getCourseLectures(courseId));
     onOpen();
     setCourseId(courseId);
     setCourseTitle(title);
   };
   const deleteButtonHandler = courseId => {
     console.log(courseId);
-    // dispatch(deleteCourse(courseId));
+    dispatch(deleteCourse(courseId));
   };
 
   const deleteLectureButtonHandler = async (courseId, lectureId) => {
-    // await dispatch(deleteLecture(courseId, lectureId));
-    // dispatch(getCourseLectures(courseId));
+    await dispatch(deleteLecture(courseId, lectureId));
+    dispatch(getCourseLectures(courseId));
     console.log(courseId); // temp
     console.log(lectureId); // temp
   };
@@ -84,19 +70,19 @@ const AdminCourses = () => {
     // dispatch(getCourseLectures(courseId));
   };
 
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch({ type: 'clearError' });
-  //   }
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
 
-  //   if (message) {
-  //     toast.success(message);
-  //     dispatch({ type: 'clearMessage' });
-  //   }
+    if (message) {
+      toast.success(message);
+      dispatch({ type: 'clearMessage' });
+    }
 
-  //   dispatch(getAllCourses());
-  // }, [dispatch, error, message, onClose]);
+    dispatch(getAllCourses());
+  }, [dispatch, error, message, onClose]);
 
   return (
     <Grid
@@ -138,7 +124,7 @@ const AdminCourses = () => {
                   deleteButtonHandler={deleteButtonHandler}
                   key={item._id}
                   item={item}
-                //  loading={loading}
+                  loading={loading}
                 />
               ))}
             </Tbody>
@@ -152,8 +138,8 @@ const AdminCourses = () => {
           courseTitle={"React Course"}  // courseTitle
           deleteButtonHandler={deleteLectureButtonHandler}
           addLectureHandler={addLectureHandler}
-          lectures={12}  // lectures 
-         // loading={loading}
+          lectures={lectures}  //  
+          loading={loading} // pass to courseModal it is Row pass
         />
       </Box>
 
@@ -183,7 +169,7 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
             onClick={() => coureDetailsHandler(item._id, item.title)}
             variant={'outline'}
             color="purple.500"
-           // isLoading={loading}
+            isLoading={loading}
           >
             View Lectures
           </Button>
@@ -191,7 +177,7 @@ function Row({ item, coureDetailsHandler, deleteButtonHandler, loading }) {
           <Button
             onClick={() => deleteButtonHandler(item._id)}
             color={'purple.600'}
-           // isLoading={loading}
+            isLoading={loading}
           >
             <RiDeleteBin7Fill />
           </Button>
