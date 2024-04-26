@@ -19,6 +19,7 @@ export const getAllCourses =(category = '', keyword = '') =>async dispatch => {
     }
   };
 
+  // get CoureseLectures
 export const getCourseLectures = id => async dispatch => {
   try {
     dispatch({ type: 'getCourseRequest' });

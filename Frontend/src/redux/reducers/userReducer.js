@@ -173,7 +173,7 @@ export const subscriptionReducer = createReducer(
     },
     buySubscriptionSuccess: (state, action) => {
       state.loading = false;
-      state.subscriptionId = action.payload;
+      state.subscriptionId = action.payload;  
     },
     buySubscriptionFail: (state, action) => {
       state.loading = false;
@@ -199,3 +199,4 @@ export const subscriptionReducer = createReducer(
     },
   }
 );
+ 

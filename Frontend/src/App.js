@@ -56,14 +56,17 @@ function App() {
 
   return (
     <Router>
-          {
-                loading ? (<Loader/>):
-                <>
-                      <Header isAuthenticated={isAuthenticated} user={user}/>
+          {loading ? (<Loader/>):
+  <>
+    <Header isAuthenticated={isAuthenticated} user={user}/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Courses' element={<Courses/>}/>
-        <Route path='/Course/:id' element={<CoursePage/> }/>
+
+        <Route path='/Course/:id' element={<ProtectedRoute isAuthenticated={isAuthenticated} >
+          <CoursePage user={user}/>
+        </ProtectedRoute> }/>
+
         <Route path='/Contact' element={<Contact/> }/>
         <Route path='/request' element={<Request/> }/>
             {/* used protected route for if user already login and profile button show */}
@@ -104,7 +107,7 @@ function App() {
         </ProtectedRoute> } />
 
         <Route path='/subscribe' element={<ProtectedRoute isAuthenticated={isAuthenticated}>
-          <Subscribe/> 
+          <Subscribe user={user}/> 
         </ProtectedRoute>} />
 
         <Route path='*' element={<NotFound/> } />
@@ -141,7 +144,7 @@ function App() {
       </Routes>
       <Footer/>
       <Toaster/>  {/*After api*/}
-                </>
+  </>
           }
     </Router>
   );

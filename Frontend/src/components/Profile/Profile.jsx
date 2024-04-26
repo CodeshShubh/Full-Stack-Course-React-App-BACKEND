@@ -28,33 +28,17 @@ import {
     removeFromPlaylist,
     updateProfilePicture,
   } from '../../redux/actions/profile';
-  import { loadUser } from '../../redux/actions/user';  // cancelSubscription,
+  import { cancelSubscription, loadUser } from '../../redux/actions/user';
   import { fileUploadCss } from '../Auth/Register';
    
   const Profile = ({ user }) => {  
      const dispatch = useDispatch();
      const { loading, message, error } = useSelector(state => state.profile);
-    // const {
-    //   loading: subscriptionLoading,
-    //   message: subscriptionMessage,
-    //   error: subscriptionError,
-    // } = useSelector(state => state.subscription);
-
-    //  const user = {       // temperiry user (we made it when we making frontend before api fetch)
-    //     name: "shubhanshu",
-    //     email :  "shubha@gmail.com",
-    //     createdAt :  String(new Date().toISOString()),
-    //     role : 'user',
-    //     subscription: {
-    //         status : "active",
-    //     },
-    //     playlist : [
-    //            {
-    //             course : "sadskjf",
-    //             poster : 'klsjdfjk'
-    //            },
-    //     ]
-    //  }     
+    const {
+      loading: subscriptionLoading,
+      message: subscriptionMessage,
+      error: subscriptionError,
+    } = useSelector(state => state.subscription);
   
      const removeFromPlaylistHandler = async id => {
       await dispatch(removeFromPlaylist(id));
@@ -70,7 +54,7 @@ import {
     };
   
     const cancelSubscriptionHandler = () => {
-      //  dispatch(cancelSubscription());
+       dispatch(cancelSubscription());
     };
   
     useEffect(() => {
@@ -82,17 +66,17 @@ import {
         toast.success(message);
         dispatch({ type: 'clearMessage' });
       }
-      // if (subscriptionMessage) {
-      //   toast.success(subscriptionMessage);
-      //   dispatch({ type: 'clearMessage' });
-      //   dispatch(loadUser());
-      // }
+      if (subscriptionMessage) {
+        toast.success(subscriptionMessage);
+        dispatch({ type: 'clearMessage' });
+        dispatch(loadUser());
+      }
   
-      // if (subscriptionError) {
-      //   toast.error(subscriptionError);
-      //   dispatch({ type: 'clearError' });
-      // }
-    }, [dispatch, error, message, ]); //subscriptionError, subscriptionMessage
+      if (subscriptionError) {
+        toast.error(subscriptionError);
+        dispatch({ type: 'clearError' });
+      }
+    }, [dispatch, error, message,subscriptionError, subscriptionMessage ]); //subscriptionError, subscriptionMessage(add after dispatch error and message)
   
     const { isOpen, onClose, onOpen } = useDisclosure();
   
@@ -132,7 +116,7 @@ import {
                 <Text children="Subscription" fontWeight={'bold'} />
                 {user.subscription &&  user.subscription.status === 'active' ? (       // user.subscription &&
                   <Button
-                     //isLoading={subscriptionLoading}
+                     isLoading={subscriptionLoading}
                     onClick={cancelSubscriptionHandler}
                     color={'yellow.500'}
                     variant="unstyled"

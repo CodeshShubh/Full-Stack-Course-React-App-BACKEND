@@ -8,76 +8,74 @@ import {
   } from '@chakra-ui/react';
   import axios from 'axios';
   import React, { useState } from 'react';
-//   import { useEffect } from 'react';
-//   import { useDispatch, useSelector } from 'react-redux';
-//   import { buySubscription } from '../../redux/actions/user';
-//   import { server } from '../../redux/store';
-//   import toast from 'react-hot-toast';
-//   import logo from '../../assets/images/logo.png';
+  import { useEffect } from 'react';
+  import { useDispatch, useSelector } from 'react-redux';
+  import { buySubscription } from '../../redux/actions/user';
+  import { server } from '../../redux/store';
+  import toast from 'react-hot-toast';
+  import logo from '../../assets/images/logo.png';
   
   const Subscribe = ({ user }) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [key, setKey] = useState('');
   
-    // const { loading, error, subscriptionId } = useSelector(
-    //   state => state.subscription
-    // );
-    // const { error: courseError } = useSelector(state => state.course);
+    const { loading, error, subscriptionId } = useSelector(
+      state => state.subscription
+    );
+    const { error: courseError } = useSelector(state => state.course);
   
     const subscribeHandler = async () => {
-    //   const {
-    //     data: { key },
-    //   } = await axios.get(`${server}/razorpaykey`);
+      const {data: { key },} = await axios.get(`${server}/razorpaykey`);
   
       setKey(key);
-    //   dispatch(buySubscription());
+      dispatch(buySubscription());
     };
   
-    // useEffect(() => {
-    //   if (error) {
-    //     toast.error(error);
-    //     dispatch({ type: 'clearError' });
-    //   }
-    //   if (courseError) {
-    //     toast.error(courseError);
-    //     dispatch({ type: 'clearError' });
-    //   }
-    //   if (subscriptionId) {
-    //     const openPopUp = () => {
-    //       const options = {
-    //         key,
-    //         name: 'CourseBundler',
-    //         description: 'Get access to all premium content',
-    //         image: logo,
-    //         subscription_id: subscriptionId,
-    //         callback_url: `${server}/paymentverification`,
-    //         prefill: {
-    //           name: user.name,
-    //           email: user.email,
-    //           contact: '',
-    //         },
-    //         notes: {
-    //           address: '6 pack programmer at youtube',
-    //         },
-    //         theme: {
-    //           color: '#FFC800',
-    //         },
-    //       };
+    useEffect(() => {
+      if (error) {
+        toast.error(error);
+        dispatch({ type: 'clearError' });
+      }
+      if (courseError) {      // this is added for cousePage.jsx when we click on watch now
+        toast.error(courseError);
+        dispatch({ type: 'clearError' });
+      }
+      if (subscriptionId) {
+        const openPopUp = () => {
+          const options = {
+            key,
+            name: 'CourseBundler',
+            description: 'Get access to all premium content',
+            image: logo,
+            subscription_id: subscriptionId,
+            callback_url: `${server}/paymentverification`,
+            prefill: {
+              name: user.name,
+              email: user.email,
+              contact: '',
+            },
+            notes: {
+              address: 'Noida Sector 62, Gautambudh Nagar',
+            },
+            theme: {
+              color: '#FFC800',
+            },
+          };
   
-    //       const razor = new window.Razorpay(options);
-    //       razor.open();
-    //     };
-    //     openPopUp();
-    //   }
-    // }, [
-    //   dispatch,
-    //   error,
-    //   courseError,
-    //   user.name,
-    //   user.email,
-    //   key,
-    //   subscriptionId,
-    // ]);
+          const razor = new window.Razorpay(options);
+          razor.open();
+        };
+        openPopUp();
+      }
+    }, [
+      dispatch,
+      error,
+      courseError,
+      user.name,
+      user.email,
+      key,
+      subscriptionId,
+    ]);
   
     return (
       <Container h="90vh" p="16">
@@ -103,7 +101,7 @@ import {
               w="full"
               colorScheme={'yellow'}
               onClick={subscribeHandler}
-              // isLoading={loading}
+               isLoading={loading}
             >
               Buy Now
             </Button>
