@@ -17,53 +17,39 @@ import React, { useEffect } from 'react';
 import { RiDeleteBin7Fill } from 'react-icons/ri';
 import cursor from '../../../assets/images/cursor.png';
 import Sidebar from '../Sidebar';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { deleteUser, getAllUsers, updateUserRole,} from '../../../redux/actions/admin';
-// import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUser, getAllUsers, updateUserRole,} from '../../../redux/actions/admin';
+import toast from 'react-hot-toast';
 
 const Users = () => {
-  // const { users, loading, error, message } = useSelector(state => state.admin);
+  const { users, loading, error, message } = useSelector(state => state.admin);
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const users =[   // temprary user data
-    {
-      _id: "kashdfkjshdfsdfsdf",
-      name: "shubhbhanshu",
-      role: "admin",
-      subscription:{
-        status : "active",
-
-
-      },
-      email: "shubh@gmail.com",
-
-    }
-  ]
 
   const updateHandler = userId => {
-    // dispatch(updateUserRole(userId));
+    dispatch(updateUserRole(userId));
     console.log(userId);
   };
   const deleteButtonHandler = userId => {
-    // dispatch(deleteUser(userId));
+    dispatch(deleteUser(userId));
     console.log(userId);
 
   };
 
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch({ type: 'clearError' });
-  //   }
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
 
-  //   if (message) {
-  //     toast.success(message);
-  //     dispatch({ type: 'clearMessage' });
-  //   }
+    if (message) {
+      toast.success(message);
+      dispatch({ type: 'clearMessage' });
+    }
 
-  //   dispatch(getAllUsers());
-  // }, [dispatch, error, message]);
+    dispatch(getAllUsers());
+  }, [dispatch, error, message]);
 
   return (
     <Grid
@@ -104,7 +90,7 @@ const Users = () => {
                     deleteButtonHandler={deleteButtonHandler}
                     key={item._id}
                     item={item}
-                    //loading={loading}
+                    loading={loading}
                   />
                 ))}
             </Tbody>
@@ -138,7 +124,7 @@ function Row({ item, updateHandler, deleteButtonHandler, loading }) {
             onClick={() => updateHandler(item._id)}
             variant={'outline'}
             color="purple.500"
-           // isLoading={loading}
+           isLoading={loading}
           >
             Change Role
           </Button>
@@ -146,7 +132,7 @@ function Row({ item, updateHandler, deleteButtonHandler, loading }) {
           <Button
             onClick={() => deleteButtonHandler(item._id)}
             color={'purple.600'}
-          //  isLoading={loading}
+           isLoading={loading}
           >
             <RiDeleteBin7Fill />
           </Button>

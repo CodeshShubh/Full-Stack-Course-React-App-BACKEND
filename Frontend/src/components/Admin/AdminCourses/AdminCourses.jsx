@@ -60,14 +60,14 @@ const AdminCourses = () => {
 
   const addLectureHandler = async (e, courseId, title, description, video) => {
     e.preventDefault();
-    // const myForm = new FormData();
+    const myForm = new FormData();
 
-    // myForm.append('title', title);
-    // myForm.append('description', description);
-    // myForm.append('file', video);
+    myForm.append('title', title);
+    myForm.append('description', description);
+    myForm.append('file', video);
 
-    // await dispatch(addLecture(courseId, myForm));
-    // dispatch(getCourseLectures(courseId));
+    await dispatch(addLecture(courseId, myForm));
+    dispatch(getCourseLectures(courseId));
   };
 
   useEffect(() => {
@@ -134,8 +134,8 @@ const AdminCourses = () => {
         <CourseModal
           isOpen={isOpen}
           onClose={onClose}
-          id={"ksdjflksjf"}  //courseId
-          courseTitle={"React Course"}  // courseTitle
+          id={courseId}  //
+          courseTitle={courseTitle}  // 
           deleteButtonHandler={deleteLectureButtonHandler}
           addLectureHandler={addLectureHandler}
           lectures={lectures}  //  

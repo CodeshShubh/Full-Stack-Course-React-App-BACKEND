@@ -46,6 +46,7 @@ export const deleteCourse = id => async dispatch => {
   }
 };
 
+//add Lecture
 export const addLecture = (id, formdata) => async dispatch => {
   try {
     const config = {
@@ -71,6 +72,7 @@ export const addLecture = (id, formdata) => async dispatch => {
   }
 };
 
+// delete Lecture
 export const deleteLecture = (courseId, lectureId) => async dispatch => {
   try {
     const config = {
@@ -92,6 +94,7 @@ export const deleteLecture = (courseId, lectureId) => async dispatch => {
   }
 };
 
+// get all Users
 export const getAllUsers = () => async dispatch => {
   try {
     const config = {
@@ -128,6 +131,7 @@ export const updateUserRole = id => async dispatch => {
   }
 };
 
+// delete user
 export const deleteUser = id => async dispatch => {
   try {
     const config = {
@@ -146,6 +150,7 @@ export const deleteUser = id => async dispatch => {
   }
 };
 
+// get Dashboard Stats
 export const getDashboardStats = () => async dispatch => {
   try {
     const config = {

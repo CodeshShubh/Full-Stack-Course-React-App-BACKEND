@@ -24,6 +24,7 @@ export const adminReducer = createReducer(
       state.error = action.payload;
     },
 
+    // get All Users
     getAllUsersRequest: state => {
       state.loading = true;
     },
@@ -35,6 +36,8 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
+
+    //update user Role
     updateUserRoleRequest: state => {
       state.loading = true;
     },
@@ -46,6 +49,8 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
+
+    // delete user
     deleteUserRequest: state => {
       state.loading = true;
     },
@@ -84,6 +89,7 @@ export const adminReducer = createReducer(
       state.error = action.payload;
     },
 
+    // add lectures
     addLectureRequest: state => {
       state.loading = true;
     },
@@ -95,7 +101,8 @@ export const adminReducer = createReducer(
       state.loading = false;
       state.error = action.payload;
     },
-
+       
+    // delete Lecture
     deleteLectureRequest: state => {
       state.loading = true;
     },
