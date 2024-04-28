@@ -19,6 +19,19 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
    
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('Service Worker registered:', registration);
+            })
+            .catch(error => {
+              console.error('Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
     <!--add script file from Rozerpay docs build integration form callback fuction code -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>   
