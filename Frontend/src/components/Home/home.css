@@ -17,7 +17,7 @@
   
   .brandsBanner > svg {
     color: white;
-    font-size: 3rem;
+    font-size: 4rem;
     transition: color 0.5s;
   }
   .brandsBanner > svg:hover {

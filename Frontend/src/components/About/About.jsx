@@ -14,12 +14,12 @@ import {
   import { Link } from 'react-router-dom';
   import introVideo from '../../assets/videos/intro.mp4';
   import termsAndCondition from '../../assets/docs/termsAndCondition';
-  
+  import avatar from '../../assets/images/Avatar.jpeg';
   const Founder = () => (
     <Stack direction={['column', 'row']} spacing={['4', '16']} padding={'8'}>
       <VStack>
         <Avatar
-          src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flipkart.com%2Fcute-cartoon-poster-interior-wall-poster-home-dcor-item-poster-kidergarten-play-school-activity-room-poster-decoration-self-adhesive-poster-paper-print%2Fp%2Fitm5ee2086298514&psig=AOvVaw1RMtGdRXk2pdmcJWOJtUap&ust=1711402188822000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOi7w47sjYUDFQAAAAAdAAAAABAE"
+          src={avatar}
           boxSize={['40', '48']}
         />
         <Text children="Co-Founder" opacity={0.7} />
@@ -29,8 +29,9 @@ import {
         <Heading children="Shubhanshu Saadhiyaan" size={['md', 'xl']} />
         <Text
           textAlign={['center', 'left']}
-          children={`Hi, I am a full-stack developer and a teacher.
-        Our mission is to provide quality content at reasonable price.`}
+          children={`Our mission is to deliver exceptional, high-caliber content at a cost-effective price point,
+           ensuring accessibility without compromising on quality. We strive to offer unparalleled value, 
+          empowering learners with enriching resources that inspire growth and excellence in their educational journey.`}
         />
       </VStack>
     </Stack>
@@ -82,7 +83,7 @@ import {
         <Heading children="About Us" textAlign={['center', 'left']} />
         <Founder />
         <Stack m="8" direction={['column', 'row']} alignItems="center">
-          <Text fontFamily={'cursive'} m="8" textAlign={['center', 'left']}>
+          <Text fontFamily={'cursive'} m="8" textAlign={['center', 'left']} >
             We are a video streaming platform with some premium courses available
             only for premium users.
           </Text>

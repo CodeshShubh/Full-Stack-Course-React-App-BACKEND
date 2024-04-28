@@ -12,10 +12,8 @@ import {
 import './home.css';
 import { Link } from 'react-router-dom';
 import vg from '../../assets/images/bg.png';
-import { CgGoogle, CgYoutube } from 'react-icons/cg';
-import { SiCoursera, SiUdemy } from 'react-icons/si';
-import { DiAws } from 'react-icons/di';
 import introVideo from '../../assets/videos/intro.mp4';
+import { FaNodeJs, FaReact, FaHtml5, FaCss3Alt, FaJs } from 'react-icons/fa';
 
 const Home = () => {
   return (
@@ -30,19 +28,20 @@ const Home = () => {
         >
           <VStack 
             width={'full'}
-            alignItems={['center', 'flex-end']}
+            alignItems={['center', 'flex-start']}
             spacing="8"
           >
-            <Heading children="LEARN FROM THE EXPERTS" size={'2xl'} />
+            <Heading children="CODE CRAFT" size={'3xl'} textAlign={['center', 'left']} />
+            <Heading children=" LEARN MERN STACK DEV" size={'xl'} textAlign={['center', 'left']}/>
             <Text
-              fontSize={'2xl'}
+              fontSize={'3xl'}
               fontFamily="cursive"
               textAlign={['center', 'left']}
               children="Find Valuable Content At Reasonable Price"
             />
             <Link to="/courses">
-              <Button size={'lg'} colorScheme="yellow">
-                Explore Now
+              <Button size={'lg'} colorScheme="yellow" textAlign={'center'}>
+              Browse Videos
               </Button>
             </Link>
           </VStack>
@@ -56,23 +55,24 @@ const Home = () => {
         </Stack>
       </div>
 
-      <Box padding={'8'} bg="blackAlpha.800">
+      <Box padding={'7'} bg="blackAlpha.800">
         <Heading
           textAlign={'center'}
           fontFamily="body"
           color={'yellow.400'}
-          children="OUR BRANDS"
+          children="MEARN STACK LANGUAGES"
         />
         <HStack
           className="brandsBanner"
           justifyContent={'space-evenly'}
           marginTop="4"
         >
-          <CgGoogle />
-          <CgYoutube />
-          <SiCoursera />
-          <SiUdemy />
-          <DiAws />
+          <FaNodeJs />
+          <FaReact />
+          <FaHtml5 />
+          <FaCss3Alt />
+          <FaJs />
+
         </HStack>
       </Box>
 
