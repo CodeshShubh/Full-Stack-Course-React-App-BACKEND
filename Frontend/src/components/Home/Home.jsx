@@ -6,7 +6,7 @@ import {
   HStack,
   Image,
   Stack,
-  Text,
+  Text, 
   VStack,
 } from '@chakra-ui/react';
 import './home.css';
