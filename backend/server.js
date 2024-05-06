@@ -6,7 +6,7 @@ import nodeCron  from "node-cron";
 import {Stats} from "./models/Stats.js"
 connectDB();  
 
-
+ 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLIENT_NAME,
   api_key: process.env.CLOUDINARY_CLIENT_API,
@@ -20,7 +20,7 @@ export const instance = new Razorpay({
 });
 
 
-
+// for sheduling the states using nodeCrone
 nodeCron.schedule("0 0 0 1 * *",async()=>{
   try {
     await Stats.create({});

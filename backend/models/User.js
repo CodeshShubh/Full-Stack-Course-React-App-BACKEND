@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import crypto from "crypto";  // for making reset token this is default package
 
 
-
+ 
  const schema = new mongoose.Schema({
   name: {
     type: String,
@@ -75,7 +75,7 @@ import crypto from "crypto";  // for making reset token this is default package
 schema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
+ 
 // for generate token for password
  schema.methods.getJWTToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {

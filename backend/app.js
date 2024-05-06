@@ -4,8 +4,8 @@ import ErrorMiddleware from "./middlewares/Error.js";
 import cookieParser from "cookie-parser";
 import cors from "cors"; //for horeku diplyoment
 
-
-
+ 
+ 
 
 config({
     path:"./config/config.env",
