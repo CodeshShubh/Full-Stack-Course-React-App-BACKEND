@@ -30,7 +30,7 @@ export const userReducer = createReducer({},{
       state.loading = false;
       state.isAuthenticated = false;
       state.error = action.payload;
-    },
+    }, 
 
     // logout
     logoutRequest: state => {

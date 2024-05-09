@@ -12,7 +12,7 @@ export const login = (email, password) => async dispatch => {
       {
         headers: {
           'Content-type': 'application/json',
-        },
+        }, 
 
         withCredentials: true,  //mendatory use to store cookies in browser
       }
